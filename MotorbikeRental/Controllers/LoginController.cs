@@ -23,6 +23,11 @@ namespace MotorbikeRental.Controllers
         {
             var token = await _authenticationMBRService.LoginAsync(login);
 
+
+            if (token == null)
+            {
+                return BadRequest("Authentication Error");
+            }   
             return Ok(token);
         }
     }

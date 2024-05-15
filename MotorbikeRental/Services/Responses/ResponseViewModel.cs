@@ -2,6 +2,7 @@
 {
     public class ResponseViewModel<T>
     {
-        public T response { get; set; }
+        public T Response { get; set; }
+        public string Message { get; set; }
     }
 }

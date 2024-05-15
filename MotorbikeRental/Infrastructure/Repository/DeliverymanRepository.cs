@@ -13,7 +13,7 @@ namespace MotorbikeRental.Infrastructure.Repository
         public DeliverymanRepository(IMongoContext mongoContext)
         {
             _mongoContext = mongoContext;
-            _dbSet = _mongoContext.GetCollection<DeliverymanEntity>("Deliverymen"); ;
+            _dbSet = _mongoContext.GetCollection<DeliverymanEntity>("Deliv0erymen"); ;
         }
 
         public async Task<Guid> InsertAsync(DeliverymanEntity obj)
@@ -29,6 +29,14 @@ namespace MotorbikeRental.Infrastructure.Repository
             var deliveryman = await _dbSet.FindAsync(Builders<DeliverymanEntity>.Filter.And(filterGuid));
             return deliveryman.FirstOrDefault();
         }
+
+        public async Task<DeliverymanEntity> GetDeliverymanByCNH(string cnh)
+        {
+            var filterCnh = Builders<DeliverymanEntity>.Filter.Eq("DeliverymanID", cnh);
+            var deliveryman = await _dbSet.FindAsync(Builders<DeliverymanEntity>.Filter.And(filterCnh));
+            return deliveryman.FirstOrDefault();
+        }
+
         public void Dispose()
         {
             GC.SuppressFinalize(this);

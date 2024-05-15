@@ -18,9 +18,17 @@ namespace MotorbikeRental.Infrastructure.Repository
 
         public async Task<Guid> InsertAsync(UserEntity obj)
         {
-            obj.UserID = Guid.NewGuid();
-            await _dbSet.InsertOneAsync(obj);
-            return obj.UserID;
+            try
+            {
+                obj.UserID = Guid.NewGuid();
+                await _dbSet.InsertOneAsync(obj);
+                return obj.UserID;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
     }
 }

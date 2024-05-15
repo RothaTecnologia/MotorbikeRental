@@ -1,17 +1,18 @@
 ﻿using MotorbikeRental.Domain.Entities;
+using MotorbikeRental.Services.Responses;
 
 namespace MotorbikeRental.Domain.Interfaces.Repository
 {
     public interface IMotorbikeRepository
     {
-        Task<Guid> InsertAsync(MotorbikeEntity obj);
+        Task<ResponseViewModel<Guid>> InsertAsync(MotorbikeEntity obj);
 
-        Task<MotorbikeEntity> GetMotorbikeByGUID(string guid);
+        Task<ResponseViewModel<MotorbikeEntity>> GetMotorbikeByGUID(string guid);
 
-        Task<MotorbikeEntity> GetMotorbikeByLicensePlate(string licensePlate);
+        Task<ResponseViewModel<MotorbikeEntity>> GetMotorbikeByLicensePlate(string licensePlate);
 
-        Task<bool> UpdateMotorbikeLicensePlateByGuid(string guid, string licensePlate);
+        Task<ResponseViewModel<bool>> UpdateMotorbikeLicensePlateByGuid(string guid, string licensePlate);
 
-        Task<bool> DeleteMotorbikeByGuid(string guid);
+        Task<ResponseViewModel<bool>> DeleteMotorbikeByGuid(string guid);
     }
 }

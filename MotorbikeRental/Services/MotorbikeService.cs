@@ -2,6 +2,7 @@
 using MotorbikeRental.Domain.Entities;
 using MotorbikeRental.Domain.Interfaces.Repository;
 using MotorbikeRental.Domain.Interfaces.Services;
+using MotorbikeRental.Services.Responses;
 using MotorbikeRental.Services.Viewmodels;
 
 namespace MotorbikeRental.Services
@@ -17,33 +18,51 @@ namespace MotorbikeRental.Services
             _map = map;
         }
 
-        public async Task<Guid> InsertMotorbike(MotorbikeViewModel motorbikeViewModel) 
+        public async Task<ResponseViewModel<Guid>> InsertMotorbike(MotorbikeViewModel motorbikeViewModel) 
         {
             var dto = _map.Map<MotorbikeEntity>(motorbikeViewModel);
-            var guid = await _repository.InsertAsync(dto);
-            return guid;
+            var response = await _repository.InsertAsync(dto);
+            return response;
         }
 
-        public async Task<MotorbikeViewModel> GetMotorbikeByGuid(string guid)
-        { 
-            var motorbikeEntity = await _repository.GetMotorbikeByGUID(guid);
-            var motorBike = _map.Map<MotorbikeViewModel>(motorbikeEntity);
-            return motorBike;
-        }
-
-        public async Task<MotorbikeViewModel> GetMotorbikeByLicensePlate(string licensePlate)
+        public async Task<ResponseViewModel<MotorbikeViewModel>> GetMotorbikeByGuid(string guid)
         {
+            var response = new ResponseViewModel<MotorbikeViewModel>();
+            var motorbikeEntity = await _repository.GetMotorbikeByGUID(guid);
+            if (motorbikeEntity != null)
+            {
+                response.Response = _map.Map<MotorbikeViewModel>(motorbikeEntity.Response);
+                response.Message = "Success";
+                return response;
+            }
+            response.Message = "Motorbike not found";
+            return response;
+        }
+
+        public async Task<ResponseViewModel<MotorbikeViewModel>> GetMotorbikeByLicensePlate(string licensePlate)
+        {
+            var response = new ResponseViewModel<MotorbikeViewModel>();
             var motorbikeEntity = await _repository.GetMotorbikeByLicensePlate(licensePlate);
-            var motorBike = _map.Map<MotorbikeViewModel>(motorbikeEntity);
-            return motorBike;
+            if (motorbikeEntity != null) 
+            {
+                var motorBike = _map.Map<MotorbikeViewModel>(motorbikeEntity.Response);
+                response.Response = motorBike;
+                response.Message = "Success";
+                return response;
+            }
+
+            response.Message = "Motorbike not found.";
+            return response;
         }
 
-        public async Task<bool> UpdateMotorbikeLicensePlateByGuid(string guid, string licensePlate)
+        public async Task<ResponseViewModel<bool>> UpdateMotorbikeLicensePlateByGuid(string guid, string licensePlate)
         { 
-            return await _repository.UpdateMotorbikeLicensePlateByGuid(guid, licensePlate);
+            var response = new ResponseViewModel<bool>();
+            response = await _repository.UpdateMotorbikeLicensePlateByGuid(guid, licensePlate);
+            return response;
         }
 
-        public async Task<bool> DeleteMotorbikeByGuid(string guid)
+        public async Task<ResponseViewModel<bool>> DeleteMotorbikeByGuid(string guid)
         {
             return await _repository.DeleteMotorbikeByGuid(guid);
         }
