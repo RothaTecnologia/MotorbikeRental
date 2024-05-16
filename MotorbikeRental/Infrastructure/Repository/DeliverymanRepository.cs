@@ -2,6 +2,7 @@
 using MotorbikeRental.Domain.Entities;
 using MotorbikeRental.Domain.Interfaces.DataContext;
 using MotorbikeRental.Domain.Interfaces.Repository;
+using MotorbikeRental.Services.Responses;
 
 namespace MotorbikeRental.Infrastructure.Repository
 {
@@ -16,25 +17,68 @@ namespace MotorbikeRental.Infrastructure.Repository
             _dbSet = _mongoContext.GetCollection<DeliverymanEntity>("Deliv0erymen"); ;
         }
 
-        public async Task<Guid> InsertAsync(DeliverymanEntity obj)
+        public async Task<ResponseViewModel<Guid>> InsertAsync(DeliverymanEntity obj)
         {
-            obj.DeliverymanID = Guid.NewGuid();
-            await _dbSet.InsertOneAsync(obj);
-            return obj.DeliverymanID;
+            try
+            {
+                var response = new ResponseViewModel<Guid>();
+                obj.DeliverymanID = Guid.NewGuid();
+                response.Response = obj.DeliverymanID;
+                await _dbSet.InsertOneAsync(obj);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public async Task<DeliverymanEntity> GetDeliverymanByGUID(string guid)
+        public async Task<ResponseViewModel<DeliverymanEntity>> GetDeliverymanByGUID(string guid)
         {
-            var filterGuid = Builders<DeliverymanEntity>.Filter.Eq("DeliverymanID", guid);
-            var deliveryman = await _dbSet.FindAsync(Builders<DeliverymanEntity>.Filter.And(filterGuid));
-            return deliveryman.FirstOrDefault();
+            var response = new ResponseViewModel<DeliverymanEntity>();
+            try
+            {
+                var filterGuid = Builders<DeliverymanEntity>.Filter.Eq("DeliverymanID", guid);
+                var deliveryman = await _dbSet.FindAsync(Builders<DeliverymanEntity>.Filter.And(filterGuid));
+                if (deliveryman != null)
+                {
+                    response.Response = deliveryman.FirstOrDefault();
+                    response.Message = "Success";
+                }
+
+                response.Message = "Deliveryman not found";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
-        public async Task<DeliverymanEntity> GetDeliverymanByCNH(string cnh)
+        public async Task<ResponseViewModel<DeliverymanEntity>> GetDeliverymanByCNH(string cnh)
         {
-            var filterCnh = Builders<DeliverymanEntity>.Filter.Eq("DeliverymanID", cnh);
-            var deliveryman = await _dbSet.FindAsync(Builders<DeliverymanEntity>.Filter.And(filterCnh));
-            return deliveryman.FirstOrDefault();
+            var response = new ResponseViewModel<DeliverymanEntity>();
+            try
+            {
+                var filterCnh = Builders<DeliverymanEntity>.Filter.Eq("CNH", cnh);
+                var deliveryman = await _dbSet.FindAsync(Builders<DeliverymanEntity>.Filter.And(filterCnh));
+                if (deliveryman != null)
+                {
+                    response.Response = deliveryman.FirstOrDefault();
+                    response.Message = "Success";
+                }
+
+                response.Message = "Deliveryman not found";
+                return response;
+                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
+            
         }
 
         public void Dispose()

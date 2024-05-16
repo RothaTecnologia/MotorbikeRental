@@ -23,12 +23,16 @@ namespace MotorbikeRental.Infrastructure.Automapper
                 .ForMember(dest => dest.CNHImage, opt => opt.MapFrom(dest => dest.CNHImage))
                 .ForMember(dest => dest.CNPJ, opt => opt.MapFrom(dest => dest.CNPJ))
                 .ForMember(dest => dest.DateBirth, opt => opt.MapFrom(dest => dest.DateBirth))
-                .ForMember(dest => dest.DeliverymanID, opt => opt.MapFrom(dest => dest.DeliverymanID));
+                .ForMember(dest => dest.DeliverymanID, opt => opt.MapFrom(dest => dest.DeliverymanID))
+                .ForMember(dest => dest.CNHImageBytes, opt => opt.MapFrom(dest => dest.CNHImageBytes))
+                .ForMember(dest => dest.CNH, opt => opt.MapFrom(dest => dest.CNH));
 
             CreateMap<DeliverymanViewModel, DeliverymanEntity>()
                 .ForMember(dest => dest.CNHImage, opt => opt.MapFrom(dest => dest.CNHImage))
                 .ForMember(dest => dest.CNPJ, opt => opt.MapFrom(dest => dest.CNPJ))
-                .ForMember(dest => dest.DateBirth, opt => opt.MapFrom(dest => dest.DateBirth));
+                .ForMember(dest => dest.DateBirth, opt => opt.MapFrom(dest => dest.DateBirth))
+                .ForMember(dest => dest.CNHImageBytes, opt => opt.MapFrom(dest => dest.CNHImageBytes))
+                .ForMember(dest => dest.CNH, opt => opt.MapFrom(dest => dest.CNH));
 
             CreateMap<UserViewModel, UserEntity>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(dest => dest.Name))
@@ -48,6 +52,36 @@ namespace MotorbikeRental.Infrastructure.Automapper
             CreateMap<UserTypeEntity, UserTypeViewModel > ()
                 .ForMember(dest => dest.UserTypeID, opt => opt.MapFrom(dest => dest.UserTypeID))
                 .ForMember(dest => dest.UserTypeDescription, opt => opt.MapFrom(dest => dest.UserTypeDescription));
+
+            CreateMap<AdditionalDailyRateEntity, AdditionalDailyRateViewModel>()
+                .ForMember(dest => dest.AdditionalDailyCost, opt => opt.MapFrom(dest => dest.AdditionalDailyCost));
+
+            CreateMap<AdditionalDailyRateViewModel, AdditionalDailyRateEntity>()
+                .ForMember(dest => dest.AdditionalDailyCost, opt => opt.MapFrom(dest => dest.AdditionalDailyCost));
+
+            CreateMap<PlanEntity, PlanViewModel>()
+                .ForMember(dest => dest.Fine, opt => opt.MapFrom(dest => dest.Fine))
+                .ForMember(dest => dest.Plan, opt => opt.MapFrom(dest => dest.Plan))
+                .ForMember(dest => dest.Days, opt => opt.MapFrom(dest => dest.Days))
+                .ForMember(dest => dest.CostPerDay, opt => opt.MapFrom(dest => dest.CostPerDay));
+
+            CreateMap<PlanViewModel, PlanEntity>()
+                .ForMember(dest => dest.Fine, opt => opt.MapFrom(dest => dest.Fine))
+                .ForMember(dest => dest.CostPerDay, opt => opt.MapFrom(dest => dest.CostPerDay))
+                .ForMember(dest => dest.Plan, opt => opt.MapFrom(dest => dest.Plan))
+                .ForMember(dest => dest.Days, opt => opt.MapFrom(dest => dest.Days))
+                .ForMember(dest => dest.IDPlan, opt => opt.MapFrom(dest => dest.IDPlan));
+
+            CreateMap<RentalEntity, RentalViewModel>()
+                .ForMember(dest => dest.EndDate, opt => opt.MapFrom(dest => dest.EndDate))
+                .ForMember(dest => dest.EstimateEndDate, opt => opt.MapFrom(dest => dest.EstimateEndDate))
+                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(dest => dest.StartDate));
+
+            CreateMap<RentalViewModel, RentalEntity > ()
+                .ForMember(dest => dest.EndDate, opt => opt.MapFrom(dest => dest.EndDate))
+                .ForMember(dest => dest.EstimateEndDate, opt => opt.MapFrom(dest => dest.EstimateEndDate))
+                .ForMember(dest => dest.RentalID, opt => opt.MapFrom(dest => dest.RentalID))
+                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(dest => dest.StartDate));
         }
     }
 }

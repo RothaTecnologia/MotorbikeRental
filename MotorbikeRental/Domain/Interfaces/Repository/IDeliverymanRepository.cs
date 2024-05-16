@@ -1,11 +1,14 @@
 ﻿using MotorbikeRental.Domain.Entities;
+using MotorbikeRental.Services.Responses;
 
 namespace MotorbikeRental.Domain.Interfaces.Repository
 {
     public interface IDeliverymanRepository
     {
-        Task<Guid> InsertAsync(DeliverymanEntity obj);
+        Task<ResponseViewModel<Guid>> InsertAsync(DeliverymanEntity obj);
 
-        Task<DeliverymanEntity> GetDeliverymanByGUID(string guid);
+        Task<ResponseViewModel<DeliverymanEntity>> GetDeliverymanByGUID(string guid);
+
+        Task<ResponseViewModel<DeliverymanEntity>> GetDeliverymanByCNH(string cnh);
     }
 }

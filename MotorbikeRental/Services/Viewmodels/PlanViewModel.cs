@@ -1,6 +1,6 @@
-﻿namespace MotorbikeRental.Domain.Entities
+﻿namespace MotorbikeRental.Services.Viewmodels
 {
-    public class PlanEntity
+    public class PlanViewModel
     {
         public required Guid IDPlan { get; set; }
         public required string Plan { get; set; }

@@ -1,8 +1,8 @@
 ﻿namespace MotorbikeRental.Domain.Entities
 {
-    public class LocationEntity
+    public class RentalEntity
     {
-        public Guid IDLocation { get; set; } = new Guid();
+        public Guid RentalID { get; set; } = new Guid();
         public DateTime StartDate { get; set; }
         public DateTime EstimateEndDate { get; set; }
         public DateTime EndDate { get; set; }

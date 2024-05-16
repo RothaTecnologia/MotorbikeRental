@@ -7,5 +7,7 @@
         public string CNPJ { get; set; }
         public DateTime DateBirth { get; set; } = new DateTime();
         public string CNHImage { get; set; }
+        public string CNH { get; set; }
+        public byte[] CNHImageBytes { get; set; }
     }
 }

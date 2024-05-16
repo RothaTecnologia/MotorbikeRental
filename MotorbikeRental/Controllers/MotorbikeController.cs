@@ -35,6 +35,11 @@ namespace MotorbikeRental.Controllers
         {
             var motorBike = await _motorbikeService.GetMotorbikeByGuid(id);
 
+            if (motorBike.Message != "Success")
+            {
+                return BadRequest(motorBike.Message);
+            }
+
             return Ok(motorBike);
         }
 
@@ -44,6 +49,11 @@ namespace MotorbikeRental.Controllers
         public async Task<IActionResult> GetLicensePlate([FromRoute] string licensePlate)
         {
             var motorBike = await _motorbikeService.GetMotorbikeByLicensePlate(licensePlate);
+
+            if (motorBike.Message != "Success")
+            {
+                return BadRequest(motorBike.Message);
+            }
 
             return Ok(motorBike);
         }
@@ -55,6 +65,11 @@ namespace MotorbikeRental.Controllers
         {
             var success = await _motorbikeService.UpdateMotorbikeLicensePlateByGuid(upddateLicensePlate.Guid, upddateLicensePlate.LicensePlate);
 
+            if (success.Message != "Success")
+            {
+                return BadRequest(success.Message);
+            }
+
             return Ok(success);
         }
 
@@ -64,6 +79,11 @@ namespace MotorbikeRental.Controllers
         public async Task<IActionResult> Delete([FromBody] string guid)
         {
             var success = await _motorbikeService.DeleteMotorbikeByGuid(guid);
+
+            if (success.Message != "Success")
+            {
+                return BadRequest(success.Message);
+            }
 
             return Ok(success);
         }
